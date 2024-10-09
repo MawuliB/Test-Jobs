@@ -23,7 +23,7 @@ pipeline {
             steps {
                 echo "Testing.."
                 sh '''
-                source venv/bin/activate
+                . venv/bin/activate
                 cd app
                 python3 app.py
                 '''
