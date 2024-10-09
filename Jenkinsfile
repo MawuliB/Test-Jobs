@@ -5,7 +5,7 @@ pipeline {
             }
       }
     triggers {
-        pollSCM('H/5 * * * *')
+        pollSCM('* * * * *')
     }
     stages {
         stage('Build') {
@@ -13,7 +13,7 @@ pipeline {
                 echo "Building.."
                 sh '''
                 cd app
-                pip install -r requirements.txt
+                pip3 install -r requirements.txt
                 '''
             }
         }
