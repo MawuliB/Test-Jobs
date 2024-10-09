@@ -12,9 +12,9 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                cd app
                 python3 -m venv venv
-                source venv/bin/activate
+                . venv/bin/activate
+                cd app
                 pip3 install -r requirements.txt
                 '''
             }
