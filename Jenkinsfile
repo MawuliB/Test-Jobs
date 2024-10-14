@@ -31,10 +31,14 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                echo 'Deliver....'
-                sh '''
-                echo "doing delivery stuff.."
-                '''
+                script {
+                    withCredentials([string(credentialsId: 'mail', variable: 'MAIL')]) {
+                        echo "Delivering.."
+                        sh '''
+                        echo "Sending mail to $MAIL"
+                        '''
+                    }
+                }
             }
         }
     }

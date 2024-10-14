@@ -2,3 +2,12 @@ env
 index.html
 python_game.py
 tic_tac_toe.py
+test.py
+traffic.py
+log.py
+webscrape.py
+sel.py
+simple.wav
+credentials-sheets.json
+.env
+mail.py
