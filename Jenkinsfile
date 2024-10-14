@@ -32,10 +32,12 @@ pipeline {
         stage('Deliver') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'mail', variable: 'MAIL')]) {
+                    withCredentials([file(credentialsId: 'mailing', variable: 'MAIL')]) {
                         echo "Delivering.."
                         sh '''
                         echo "Sending mail to $MAIL"
+                        echo $MAIL > mail.txt
+                        cat mail.txt
                         echo "Build Success"
                         '''
                     }
