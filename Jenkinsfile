@@ -36,6 +36,7 @@ pipeline {
                         echo "Delivering.."
                         sh '''
                         echo "Sending mail to $MAIL"
+                        echo "Build Success"
                         '''
                     }
                 }
