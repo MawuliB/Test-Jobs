@@ -7,6 +7,8 @@ load_dotenv()
 mail = os.getenv('MAIL')
 password = os.getenv('PASSWORD')
 
+print(mail)
+
 smtObj = smtplib.SMTP('smtp.gmail.com', 587)
 smtObj.starttls()
 smtObj.login(mail, password)
