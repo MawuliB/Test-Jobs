@@ -36,6 +36,7 @@ pipeline {
                     withCredentials([file(credentialsId: 'mailing', variable: 'MAIL')]) {
                         echo "Delivering.."
                         sh '''
+                        . venv/bin/activate
                         cp $MAIL .env
                         python3 mail.py
                         echo "Build Success"
