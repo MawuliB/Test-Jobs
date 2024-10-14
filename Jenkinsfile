@@ -14,6 +14,7 @@ pipeline {
                 sh '''
                 python3 -m venv venv
                 . venv/bin/activate
+                mkdir .env
                 cd app
                 pip3 install -r requirements.txt
                 '''
@@ -35,9 +36,8 @@ pipeline {
                     withCredentials([file(credentialsId: 'mailing', variable: 'MAIL')]) {
                         echo "Delivering.."
                         sh '''
-                        echo "Sending mail to $MAIL"
-                        echo $MAIL > mail.txt
-                        cat mail.txt
+                        cp $MAIL .env
+                        python3 mail.py
                         echo "Build Success"
                         '''
                     }
