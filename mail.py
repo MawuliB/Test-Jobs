@@ -4,10 +4,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+me = os.getenv('BY')
 mail : str = os.getenv('MAIL')
 password : str = os.getenv('PASSWORD')
 
-print(f'Mail: {mail}, Password: {password}')
+print(f'M: {me}, Mail: {mail}, Password: {password}')
 
 if mail and password:
     try:
