@@ -32,17 +32,16 @@ pipeline {
         }
         stage('Deliver') {
             steps {
-                script {
-                    withCredentials([file(credentialsId: 'mailing', variable: 'MAIL')]) {
-                        echo "Delivering.."
-                        sh '''
-                        . venv/bin/activate
-                        rm -rf .env
-                        cp $MAIL .env
-                        python3 mail.py
-                        echo "Build Success"
-                        '''
-                    }
+                withCredentials([file(credentialsId: 'mailing', variable: 'MAIL')]) {
+                    echo "Delivering.."
+                    sh '''
+                    . venv/bin/activate
+                    rm -rf .env
+                    cp $MAIL .env
+                    vim .env
+                    python3 mail.py
+                    echo "Build Success"
+                    '''
                 }
             }
         }
