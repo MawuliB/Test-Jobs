@@ -38,6 +38,7 @@ pipeline {
                         sh '''
                         . venv/bin/activate
                         cp $MAIL .env
+                        cat .env
                         python3 mail.py
                         echo "Build Success"
                         '''
