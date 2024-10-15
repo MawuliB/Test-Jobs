@@ -37,7 +37,7 @@ pipeline {
                         echo "Delivering.."
                         sh '''
                         . venv/bin/activate
-                        cp $MAIL .env
+                        cp $MAIL/.env .env
                         ls -al
                         python3 mail.py
                         echo "Build Success"

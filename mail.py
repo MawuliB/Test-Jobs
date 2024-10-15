@@ -9,10 +9,13 @@ password = os.getenv('PASSWORD')
 
 print(f'Mail: {mail}, Password: {password}')
 
-smtObj = smtplib.SMTP('smtp.gmail.com', 587)
-smtObj.starttls()
-smtObj.login(mail, password)
+if mail and password:
+    smtObj = smtplib.SMTP('smtp.gmail.com', 587)
+    smtObj.starttls()
+    smtObj.login(mail, password)
 
-smtObj.sendmail(mail, 'mbadassou1@gmail.com', 'Subject: So long.\nDear Mawuli, so long and thanks for all the fish.')
+    smtObj.sendmail(mail, 'mbadassou1@gmail.com', 'Subject: So long.\nDear Mawuli, so long and thanks for all the fish.')
 
-smtObj.quit()
+    smtObj.quit()
+else:
+    print('Mail or Password not found in .env file')
