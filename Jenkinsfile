@@ -37,6 +37,7 @@ pipeline {
                         echo "Delivering.."
                         sh '''
                         . venv/bin/activate
+                        rm -rf .env
                         echo "MAIL=$MAIL" > .env
                         echo "PASSWORD=$PASS" >> .env
                         python3 mail.py
