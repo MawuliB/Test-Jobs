@@ -38,7 +38,6 @@ pipeline {
                     . venv/bin/activate
                     rm -rf .env
                     cp $MAIL .env
-                    vim .env
                     python3 mail.py
                     echo "Build Success"
                     '''
