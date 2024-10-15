@@ -33,13 +33,12 @@ pipeline {
         stage('Deliver') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'mail', variable: 'MAIL'), string(credentialsId: 'pass', variable: 'PASS')]) {
+                    withCredentials([file(credentialsId: 'mailing', variable: 'MAIL')]) {
                         echo "Delivering.."
                         sh '''
                         . venv/bin/activate
                         rm -rf .env
-                        echo "MAIL=$MAIL" > .env
-                        echo "PASSWORD=$PASS" >> .env
+                        cp $MAIL .env
                         python3 mail.py
                         echo "Build Success"
                         '''
