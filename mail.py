@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 me = os.getenv('BY')
-mail : str = os.getenv('MAIL')
-password : str = os.getenv('PASSWORD')
+mail : str = os.getenv('MAIL_USERNAME')
+password : str = os.getenv('MAIL_PASSWORD')
 
 print(f'M: {me}, Mail: {mail}, Password: {password}')
 
