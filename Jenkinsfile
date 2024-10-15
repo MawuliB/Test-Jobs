@@ -36,11 +36,11 @@ pipeline {
                     echo "Delivering.."
                     sh '''
                     . venv/bin/activate
-                    # rm -rf .env
+                    rm -rf .env
                     cp $MAIL .env
                     python3 mail.py
-                    echo "Build Success"
                     '''
+                    echo "Build Success"
                 }
             }
         }
