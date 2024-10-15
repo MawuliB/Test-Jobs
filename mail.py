@@ -4,18 +4,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-mail = os.getenv('MAIL')
-password = os.getenv('PASSWORD')
+mail : str = os.getenv('MAIL')
+password : str = os.getenv('PASSWORD')
 
 print(f'Mail: {mail}, Password: {password}')
 
 if mail and password:
-    smtObj = smtplib.SMTP('smtp.gmail.com', 587)
-    smtObj.starttls()
-    smtObj.login(mail, password)
+    try:
+        smtObj = smtplib.SMTP('smtp.gmail.com', 587)
+        smtObj.starttls()
+        smtObj.login(mail, password)
 
-    smtObj.sendmail(mail, 'mbadassou1@gmail.com', 'Subject: So long.\nDear Mawuli, so long and thanks for all the fish.')
+        smtObj.sendmail(mail, 'mbadassou1@gmail.com', 'Subject: So long.\nDear Mawuli, so long and thanks for all the fish.')
 
-    smtObj.quit()
+        smtObj.quit()
+    except Exception as e:
+        print(e)
 else:
     print('Mail or Password not found in .env file')
