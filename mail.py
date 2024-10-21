@@ -79,20 +79,20 @@ def send_sms(message: str):
 
     print(message.sid)
 
-def send_sms_with_smschef(message: str):
+# def send_sms_with_smschef(message: str):
 
-    param = {
-    "secret": apiSecret,
-    "mode": "devices",
-    "sim": 1,
-    "priority": 1,
-    "phone": my_number,
-    "message": message
-    }
+#     param = {
+#     "secret": apiSecret,
+#     "mode": "devices",
+#     "sim": 1,
+#     "priority": 1,
+#     "phone": my_number,
+#     "message": message
+#     }
 
-    r = requests.post(url = "https://www.cloud.smschef.com/api/send/sms", params = param)
+#     r = requests.post(url = "https://www.cloud.smschef.com/api/send/sms", params = param)
 
-    print(r.text)
+#     print(r.text)
 
 def main():
     fetch_today_mail()
