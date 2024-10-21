@@ -2,8 +2,8 @@ pipeline {
     agent { 
         node {
             label 'docker-agent-alpine-node-python'
-            }
-      }
+        }
+    }
     triggers {
         pollSCM('* * * * *')
     }
@@ -43,6 +43,32 @@ pipeline {
                     echo "Build Success"
                 }
             }
+        }
+    }
+    post {
+        success {
+            echo "Build Success"
+            githubStatus(
+                context: 'continuous-integration/jenkins',
+                description: 'The build succeeded!',
+                status: 'SUCCESS'
+            )
+        }
+        pending {
+            echo "Build Pending"
+            githubStatus(
+                context: 'continuous-integration/jenkins',
+                description: 'The build is pending',
+                status: 'PENDING'
+            )
+        }
+        failure {
+            echo "Build Failed"
+            githubStatus(
+                context: 'continuous-integration/jenkins',
+                description: 'The build failed',
+                status: 'FAILURE'
+            )
         }
     }
 }
