@@ -44,20 +44,30 @@ pipeline {
     }
     post {
         success {
-            echo "Build Success!"
-            githubStatus(
-                context: 'continuous-integration/jenkins',
-                description: 'The build succeeded!',
-                status: 'SUCCESS'
-            )
+            script {
+                updateGitHubStatus('success', 'The build succeeded!')
+            }
         }
         failure {
-            echo "Build Failed!"
-            githubStatus(
-                context: 'continuous-integration/jenkins',
-                description: 'The build failed',
-                status: 'FAILURE'
-            )
+            script {
+                updateGitHubStatus('failure', 'The build failed')
+            }
         }
+    }
+}
+
+def updateGitHubStatus(state, description) {
+    withCredentials([string(credentialsId: 'Git-token', variable: 'GITHUB_TOKEN')]) {
+        def commitSha = env.GIT_COMMIT
+        def repoUrl = env.GIT_URL.replaceAll(/^git@github.com:|.git$/, '')
+        def apiUrl = "https://api.github.com/repos/${repoUrl}/statuses/${commitSha}"
+        
+        sh """
+            curl -H "Authorization: token ${GITHUB_TOKEN}" \
+                 -H "Accept: application/vnd.github.v3+json" \
+                 -X POST \
+                 -d '{"state": "${state}", "context": "continuous-integration/jenkins", "description": "${description}"}' \
+                 ${apiUrl}
+        """
     }
 }
