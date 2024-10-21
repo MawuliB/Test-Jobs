@@ -59,6 +59,7 @@ pipeline {
 
 def updateGitHubStatus(state, description) {
     withCredentials([string(credentialsId: 'Git-token', variable: 'GITHUB_TOKEN')]) {
+        echo "${env.GIT_COMMIT}"
         def commitSha = env.GIT_COMMIT
         def repoOwner = env.GITHUB_REPO_OWNER ?: env.GIT_URL?.split('/')[-2]
         def repoName = env.GITHUB_REPO_NAME ?: env.GIT_URL?.split('/')[-1].replaceAll('.git', '')
