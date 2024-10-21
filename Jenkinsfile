@@ -54,14 +54,6 @@ pipeline {
                 status: 'SUCCESS'
             )
         }
-        pending {
-            echo "Build Pending"
-            githubStatus(
-                context: 'continuous-integration/jenkins',
-                description: 'The build is pending',
-                status: 'PENDING'
-            )
-        }
         failure {
             echo "Build Failed"
             githubStatus(
