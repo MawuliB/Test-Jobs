@@ -58,9 +58,15 @@ pipeline {
 
 def updateGitHubStatus(state, description) {
     withCredentials([string(credentialsId: 'Git-token', variable: 'GITHUB_TOKEN')]) {
-        def commitSha = GIT_COMMIT
-        def repoUrl = GIT_URL.replaceAll(/^git@github.com:|.git$/, '')
-        def apiUrl = "https://api.github.com/repos/${repoUrl}/statuses/${commitSha}"
+        def commitSha = env.GIT_COMMIT
+        def repoOwner = env.GITHUB_REPO_OWNER ?: env.GIT_URL?.split('/')[-2]
+        def repoName = env.GITHUB_REPO_NAME ?: env.GIT_URL?.split('/')[-1].replaceAll('.git', '')
+
+        if (!commitSha || !repoOwner || !repoName) {
+            error "Unable to determine GitHub repository details. Make sure you're using GitHub Branch Source or have configured the necessary environment variables."
+        }
+
+        def apiUrl = "https://api.github.com/repos/${repoOwner}/${repoName}/statuses/${commitSha}"
         
         sh """
             curl -H "Authorization: token ${GITHUB_TOKEN}" \
