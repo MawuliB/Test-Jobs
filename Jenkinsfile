@@ -58,8 +58,8 @@ pipeline {
 
 def updateGitHubStatus(state, description) {
     withCredentials([string(credentialsId: 'Git-token', variable: 'GITHUB_TOKEN')]) {
-        def commitSha = env.GIT_COMMIT
-        def repoUrl = env.GIT_URL.replaceAll(/^git@github.com:|.git$/, '')
+        def commitSha = GIT_COMMIT
+        def repoUrl = GIT_URL.replaceAll(/^git@github.com:|.git$/, '')
         def apiUrl = "https://api.github.com/repos/${repoUrl}/statuses/${commitSha}"
         
         sh """
