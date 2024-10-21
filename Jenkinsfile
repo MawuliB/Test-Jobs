@@ -9,6 +9,7 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
+                echo "$GIT_URL"
                 #python3 -m venv venv
                 #. venv/bin/activate
                 #mkdir .env
