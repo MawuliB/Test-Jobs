@@ -56,11 +56,11 @@ pipeline {
 
 def updateGitHubStatus(state, description) {
     withCredentials([string(credentialsId: 'Git-token', variable: 'GITHUB_TOKEN')]) {
-        
-        def apiUrl = "https://api.github.com/repos/${env.GIT_URL}/statuses/${getGitSha()}"
 
-        echo "${apiUrl}"
-        echo "${getGitUser()}"
+        def repo = sh(script: 'git config --get remote.origin.url', returnStdout: true).trim()
+        def owner = repo.split('/')[3]
+        
+        def apiUrl = "https://api.github.com/repos/${owner}/${repo}/statuses/${getGitSha()}"
         
         sh """
             curl -H "Authorization: token ${GITHUB_TOKEN}" \
