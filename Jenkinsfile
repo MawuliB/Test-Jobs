@@ -63,7 +63,7 @@ def updateGitHubStatus(state, description) {
         def apiUrl = "https://api.github.com/repos/${owner}/${repo}/statuses/${getGitSha()}"
         
         sh """
-            curl -H "Authorization: token ${GITHUB_TOKEN}" \
+            curl -H "Authorization: token $GITHUB_TOKEN" \
                  -H "Accept: application/vnd.github.v3+json" \
                  -X POST \
                  -d '{"state": "${state}", "context": "continuous-integration/jenkins", "description": "${description}"}' \
