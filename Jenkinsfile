@@ -4,6 +4,7 @@ pipeline {
             label any
         }
     }
+
     stages {
         stage('Build') {
             steps {
@@ -59,16 +60,11 @@ pipeline {
 
 def updateGitHubStatus(state, description) {
     withCredentials([string(credentialsId: 'Git-token', variable: 'GITHUB_TOKEN')]) {
-        echo "${env.GIT_COMMIT}"
-        def commitSha = env.GIT_COMMIT
-        def repoOwner = env.GITHUB_REPO_OWNER ?: env.GIT_URL?.split('/')[-2]
-        def repoName = env.GITHUB_REPO_NAME ?: env.GIT_URL?.split('/')[-1].replaceAll('.git', '')
+        
+        def apiUrl = "https://api.github.com/repos/${env.GIT_URL}/statuses/${getGitSha()}"
 
-        if (!commitSha || !repoOwner || !repoName) {
-            error "Unable to determine GitHub repository details. Make sure you're using GitHub Branch Source or have configured the necessary environment variables."
-        }
-
-        def apiUrl = "https://api.github.com/repos/${repoOwner}/${repoName}/statuses/${commitSha}"
+        echo "${apiUrl}"
+        echo "${getGitUser()}"
         
         sh """
             curl -H "Authorization: token ${GITHUB_TOKEN}" \
@@ -78,4 +74,12 @@ def updateGitHubStatus(state, description) {
                  ${apiUrl}
         """
     }
+}
+
+def getGitUser() {
+    return sh(script: 'git log -1 --pretty=format:%ae', returnStdout: true).trim()
+}
+
+def getGitSha() {
+    return sh(script: 'git log -n 1 --pretty=format:"%H"', returnStdout: true).trim()
 }
