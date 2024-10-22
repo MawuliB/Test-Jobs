@@ -1,9 +1,5 @@
 pipeline {
-    agent { 
-        node {
-            label 'jenkins-agent-alpine'
-        }
-    }
+    agent any
 
     stages {
         stage('Build') {
