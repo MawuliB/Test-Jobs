@@ -59,8 +59,9 @@ def updateGitHubStatus(state, description) {
 
         def repo = sh(script: 'git config --get remote.origin.url', returnStdout: true).trim()
         def owner = repo.split('/')[3]
+        def repoName = repo.split('/')[4]
         
-        def apiUrl = "https://api.github.com/repos/${owner}/${repo}/statuses/${getGitSha()}"
+        def apiUrl = "https://api.github.com/repos/${owner}/${repoName}/statuses/${getGitSha()}"
         
         sh """
             curl -H "Authorization: token $GITHUB_TOKEN" \
