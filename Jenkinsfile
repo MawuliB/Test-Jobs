@@ -1,5 +1,12 @@
 pipeline {
     agent any
+    
+    options {
+        // Cleanup workspace before each build
+        skipDefaultCheckout(false)
+        // Keep only last 5 builds
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
 
     stages {
         stage('Build') {
@@ -39,8 +46,36 @@ pipeline {
                // }
             }
         }
+        stage('Cleanup') {
+            steps {
+                // Clean system memory
+                    sh '''
+                        set -e
+
+                        # Clear page cache, dentries and inodes
+                        sync; echo 3 | sudo tee /proc/sys/vm/drop_caches
+                        
+                        # Clear swap space
+                        sudo swapoff -a && sudo swapon -a
+                        
+                        # Remove old log files
+                        sudo find /var/log -type f -name "*.log" -mtime +7 -exec rm -f {} \\;
+                        
+                        # Clean temp directories
+                        sudo rm -rf /tmp/*
+                        sudo rm -rf /var/tmp/*
+                        
+                        # Clean Jenkins specific directories
+                        find ${JENKINS_HOME}/jobs -type d -name "builds" -mtime +7 -exec rm -rf {} +
+                        find ${JENKINS_HOME}/jobs -type d -name "workspace" -mtime +7 -exec rm -rf {} +
+                    '''
+            }
+        }
     }
     post {
+        always {
+            cleanWs()
+        }
         success {
             script {
                 updateGitHubStatus('success', 'The build succeeded!')
