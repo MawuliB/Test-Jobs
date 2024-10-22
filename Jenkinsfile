@@ -37,7 +37,7 @@ pipeline {
                 //withCredentials([file(credentialsId: 'mailing', variable: 'MAIL')]) {
                     echo "Delivering.."
                     sh '''
-                    #. venv/bin/activate
+                    . venv/bin/activate
                     #rm -rf .env
                     #cp $MAIL .env
                     #python3 mail.py
